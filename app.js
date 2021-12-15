@@ -8,6 +8,7 @@ let height = document.querySelector('.details_small #height');
 let power1 = document.querySelector('.power_1 h3');
 let power2 = document.querySelector('.power_2 h3');
 let typePokemon = document.querySelector('.hp');
+let effectPower1 = document.querySelector('.description_power .effectpower1');
 
 async function getPokemon() {
     const response = await fetch("https://pokeapi.co/api/v2/pokemon/" + Math.floor(Math.random() * 898));
@@ -24,6 +25,10 @@ async function getPokemon() {
         power2.innerText = `${pokemon.abilities[1].ability.name.toUpperCase()}`;
         let typesPokemon = `${pokemon.types[0].type.name}`;
         typePokemon.innerHTML += `<img src="img/${typesPokemon}.png" >`;
+        const shortDescriptionPower1 = await fetch(pokemon.abilities[0].ability.url);
+        const firstAbility = await shortDescriptionPower1.json();
+        console.log(firstAbility.effect_entries[1].short_effect)
+        effectPower1.innerText = `${firstAbility.effect_entries[1].short_effect}`;
     } catch (error) {
         console.log(error);
     }
