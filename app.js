@@ -7,6 +7,7 @@ let weight = document.querySelector('.details_small #weight');
 let height = document.querySelector('.details_small #height');
 let power1 = document.querySelector('.power_1 h3');
 let power2 = document.querySelector('.power_2 h3');
+let typePokemon = document.querySelector('.hp');
 
 async function getPokemon() {
     const response = await fetch("https://pokeapi.co/api/v2/pokemon/" + Math.floor(Math.random() * 898));
@@ -21,6 +22,8 @@ async function getPokemon() {
         height.innerText = `${pokemon.height * 10} cm`; // height default is in decimetre
         power1.innerText = `${pokemon.abilities[0].ability.name.toUpperCase()}`;
         power2.innerText = `${pokemon.abilities[1].ability.name.toUpperCase()}`;
+        let typesPokemon = `${pokemon.types[0].type.name}`;
+        typePokemon.innerHTML += `<img src="img/${typesPokemon}.png" >`;
     } catch (error) {
         console.log(error);
     }
