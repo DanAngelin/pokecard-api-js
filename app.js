@@ -5,6 +5,8 @@ let pokemonDisplay = document.querySelector('#pokemon-display');
 let hp = document.querySelector('.hp h2');
 let weight = document.querySelector('.details_small #weight');
 let height = document.querySelector('.details_small #height');
+let power1 = document.querySelector('.power_1 h3');
+let power2 = document.querySelector('.power_2 h3');
 
 async function getPokemon() {
     const response = await fetch("https://pokeapi.co/api/v2/pokemon/" + Math.floor(Math.random() * 898));
@@ -17,6 +19,8 @@ async function getPokemon() {
         hp.innerText += ` ${pokemon.stats[0].base_stat}`;
         weight.innerText = `${pokemon.weight / 10} kg`;  // weight default is in hectograms
         height.innerText = `${pokemon.height * 10} cm`; // height default is in decimetre
+        power1.innerText = `${pokemon.abilities[0].ability.name.toUpperCase()}`;
+        power2.innerText = `${pokemon.abilities[1].ability.name.toUpperCase()}`;
     } catch (error) {
         console.log(error);
     }
