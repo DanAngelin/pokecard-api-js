@@ -3,12 +3,13 @@ let pokemonTitle = document.querySelector('.pokemon_title h1');
 let pokemonIcon = document.querySelector('.pokemon_icon');
 let pokemonDisplay = document.querySelector('#pokemon-display');
 let hp = document.querySelector('.hp h2');
-let weight = document.querySelector('.details_small #weight');
-let height = document.querySelector('.details_small #height');
+let weightPokemon = document.querySelector('.details_small #weight');
+let heightPokemon = document.querySelector('.details_small #height');
 let power1 = document.querySelector('.power_1 h3');
 let power2 = document.querySelector('.power_2 h3');
 let typePokemon = document.querySelector('.hp');
 let effectPower1 = document.querySelector('.description_power .effectpower1');
+let effectPower2 = document.querySelector('.description_power .effectpower2');
 let card = document.querySelector('.card');
 
 const cardColors = {
@@ -35,22 +36,32 @@ const cardColors = {
 async function getPokemon() {
     const response = await fetch("https://pokeapi.co/api/v2/pokemon/" + Math.floor(Math.random() * 898));
     const pokemon = await response.json();
+    console.log(pokemon)
+    let {name, sprites: {other: {home: {front_default}}}, stats:[{base_stat}], weight, height, 
+        abilities: [{ability: {name: first, url: detailFirstAbility}}, {ability: {name: second, url: detailSecondAbility}}], 
+        types: [{type: {name: typesPokemon}}],
+        } = pokemon;
     try {
-        pokemonName.innerText += `${pokemon.name[0].toUpperCase() + pokemon.name.slice(1)}`
-        pokemonTitle.innerText += `${pokemon.name[0].toUpperCase() + pokemon.name.slice(1)}`
-        pokemonDisplay.innerHTML += `<img src="${pokemon.sprites.other.home.front_default}" >`;
-        pokemonIcon.innerHTML += `<img src="${pokemon.sprites.other.home.front_default}" >`;
-        hp.innerText += ` ${pokemon.stats[0].base_stat}`;
-        weight.innerText = `${pokemon.weight / 10} kg`;  // weight default is in hectograms
-        height.innerText = `${pokemon.height * 10} cm`; // height default is in decimetre
-        power1.innerText = `${pokemon.abilities[0].ability.name.toUpperCase()}`;
-        power2.innerText = `${pokemon.abilities[1].ability.name.toUpperCase()}`;
-        let typesPokemon = `${pokemon.types[0].type.name}`;
+        pokemonName.innerText += `${name[0].toUpperCase() + name.slice(1)}`
+        pokemonTitle.innerText += `${name[0].toUpperCase() + name.slice(1)}`
+        pokemonDisplay.innerHTML += `<img src="${front_default}" >`;
+        pokemonIcon.innerHTML += `<img src="${front_default}" >`;
+        hp.innerText += ` ${base_stat}`;
+        weightPokemon.innerText = `${weight} kg`;  // weight default is in hectograms
+        heightPokemon.innerText = `${height * 10} cm`; // height default is in decimetre
+        power1.innerText = `${first.toUpperCase()}`;
+        power2.innerText = `${second.toUpperCase()}`;
         typePokemon.innerHTML += `<img src="img/${typesPokemon}.png" >`;
-        const shortDescriptionPower1 = await fetch(pokemon.abilities[0].ability.url);
-        const firstAbility = await shortDescriptionPower1.json();
-        console.log(firstAbility.effect_entries[1].short_effect)
-        effectPower1.innerText = `${firstAbility.effect_entries[1].short_effect}`;
+        const fetchDetailFirstAbility = await fetch(detailFirstAbility);
+        const firstAbility = await fetchDetailFirstAbility.json();
+        console.log(firstAbility)
+        let {effect_entries: [{language: {name: nameLang}, short_effect: short_effectDe}, {language: {name: nameLang2},short_effect: short_effectEn}]} = firstAbility;
+        effectPower1.innerText = `${(short_effectEn && nameLang2 === "en") ? short_effectEn : short_effectDe}`;
+        console.log(nameLang, nameLang2);
+        const fetchDetailSecondAbility = await fetch(detailSecondAbility);
+        const secondAbility = await fetchDetailSecondAbility.json();
+        let {effect_entries: [{short_effect: short_effectDe1}, {short_effect: short_effectEn2}]} = secondAbility;
+        effectPower2.innerText = `${short_effectEn2 ? short_effectEn2 : short_effectDe1}`;
         card.style.backgroundColor = cardColors[typesPokemon];
     } catch (error) {
         console.log(error);
