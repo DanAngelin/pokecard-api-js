@@ -36,8 +36,12 @@ const cardColors = {
 
 const getPokemon = async querry => {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${querry}`);
-    if (response.status === 404) {
-        return alert('asdew');
+    if (response.status == 404) {
+        document.querySelector('.error-found span').innerText = `Sorry. We don't found this Pokemon :( !`;
+        document.querySelector('.error-found span').style.display = 'block';
+        return
+    } else {
+        document.querySelector('.error-found span').style.display = 'none';
     }
     const pokemon = await response.json();
     let {name, id, sprites: {other: {home: {front_default}}}, stats:[{base_stat}], weight, height, 

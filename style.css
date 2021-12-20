@@ -91,6 +91,11 @@ section {
     cursor: pointer;
 }
 
+.error-found span {
+    font-weight: 700;
+    color: #EEAA41;
+}
+
 /* ---- CARD ITEM ---- */
 
 .card_item {
