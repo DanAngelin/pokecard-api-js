@@ -11,7 +11,9 @@ let typePokemon = document.querySelector('.icon-type');
 let effectPower1 = document.querySelector('.description_power .effectpower1');
 let effectPower2 = document.querySelector('.description_power .effectpower2');
 let card = document.querySelector('.card');
-let pokeCard = document.querySelector('.pokemon_card p');
+let pokeCard = document.querySelector(".idPokemon");
+let attackStats = document.querySelector('.attack p');
+let defenseStats = document.querySelector('.defense p');
 
 const cardColors = {
 	normal: '#A8A77A',
@@ -37,44 +39,66 @@ const cardColors = {
 const getPokemon = async querry => {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${querry}`);
     if (response.status == 404) {
-        document.querySelector('.error-found span').innerText = `Sorry. We don't found this Pokemon :( !`;
+        document.querySelector('.error-found span').innerText = `Sorry, we don't found this Pokemon :( !`;
         document.querySelector('.error-found span').style.display = 'block';
         return
     } else {
         document.querySelector('.error-found span').style.display = 'none';
     }
     const pokemon = await response.json();
-    let {name, id, sprites: {other: {home: {front_default}}}, stats:[{base_stat}], weight, height, 
-        abilities: [{ability: {name: first, url: detailFirstAbility}}, {ability: {name: second, url: detailSecondAbility}}], 
+
+    try {
+        let {name, id, sprites: {other: {home: {front_default}}}, stats:[{base_stat}, {base_stat: attack}, {base_stat: defense}], weight, height, 
+        abilities: [{ability: {name: first, url: detailFirstAbility}}], 
         types: [{type: {name: typesPokemon}}],
         } = pokemon;
-    try {
         pokemonName.innerText = `${name[0].toUpperCase() + name.slice(1)}`;
         pokemonTitle.innerText = `${name[0].toUpperCase() + name.slice(1)}`;
-        pokeCard.innerText = `Pokemon Card #${id}`;
+        pokeCard.innerText = `${id}`;
         pokemonDisplay.innerHTML = `<img src="${front_default}" >`;
         pokemonIcon.innerHTML = `<img src="${front_default}" >`;
         typePokemon.innerHTML = `<img src="img/${typesPokemon}.png" >`;
+        attackStats.innerText = `${attack}`;
+        defenseStats.innerText = `${defense}`
         hp.innerText = ` ${base_stat}`;
         weightPokemon.innerText = `${weight / 10} kg`;  // weight default is in hectograms
         heightPokemon.innerText = `${height * 10} cm`; // height default is in decimetre
+
+        // First Ability + Short Description
+
         power1.innerText = `${first.toUpperCase()}`;
-        power2.innerText = `${second.toUpperCase()}`;
         const fetchDetailFirstAbility = await fetch(detailFirstAbility);
         const firstAbility = await fetchDetailFirstAbility.json();
         let {effect_entries: [{language: {name: nameLang}, short_effect: short_effectDe}, {language: {name: nameLang2},short_effect: short_effectEn}]} = firstAbility;
         effectPower1.innerText = `${(short_effectEn && nameLang2 === "en") ? short_effectEn : short_effectDe}`;
-        const fetchDetailSecondAbility = await fetch(detailSecondAbility);
-        const secondAbility = await fetchDetailSecondAbility.json();
-        let {effect_entries: [{short_effect: short_effectDe1}, {short_effect: short_effectEn2}]} = secondAbility;
-        effectPower2.innerText = `${short_effectEn2 ? short_effectEn2 : short_effectDe1}`;
+
+        // Second Ability + Short Description
+
+        if (pokemon.abilities[1]) {
+            let {ability: {name: second, url: detailSecondAbility}} = pokemon.abilities[1];
+            const fetchDetailSecondAbility = await fetch(detailSecondAbility);
+            const secondAbility = await fetchDetailSecondAbility.json();
+            let {effect_entries: [{short_effect: short_effectDe1}, {short_effect: short_effectEn2}]} = secondAbility;
+            effectPower2.innerText = `${short_effectEn2 ? short_effectEn2 : short_effectDe1}`;
+            power2.innerText = `${second.toUpperCase()}`;
+            document.querySelector('.power_2').style.visibility = "visible";
+        } else {
+            effectPower2.innerText = ``;
+            document.querySelector('.power_2').style.visibility = "hidden";
+            power2.innerText = ``;
+        }
+
+        // Card Color depending types pokemon
+
         card.style.backgroundColor = cardColors[typesPokemon];
     } catch (error) {
-        console.log('error');
+        console.log(error);
     }
 
 }
 
+
+        // Input Btn Search Pokemon
 
 const btnSearch = document.querySelector('.btnSearch');
 const idPokeApi = () => {
