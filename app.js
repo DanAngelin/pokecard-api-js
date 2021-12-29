@@ -109,3 +109,9 @@ return idPoke;
 
 
 btnSearch.addEventListener('click', () => getPokemon(idPokeApi()));
+
+
+// FOOTER YEAR
+
+const getDate = new Date();
+document.querySelector('.year').innerText = `${getDate.getFullYear()}`

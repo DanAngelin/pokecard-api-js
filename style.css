@@ -304,10 +304,6 @@ section {
     justify-content: center;
 }
 
-/* .pokemon_stats p {
-    font-weight: 500;
-} */
-
 /* ----- FOOTER SMALL ----- */
 
 .footer_small {
@@ -338,3 +334,8 @@ section {
     justify-content: center;
 }
 
+.footer {
+    text-align: center;
+    position: relative;
+    margin-top: 8em;
+}
