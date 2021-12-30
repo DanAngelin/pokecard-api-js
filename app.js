@@ -115,3 +115,25 @@ btnSearch.addEventListener('click', () => getPokemon(idPokeApi()));
 
 const getDate = new Date();
 document.querySelector('.year').innerText = `${getDate.getFullYear()}`
+
+// BACKGROUND VIDEO 
+document.querySelector('.background-video').volume=0.2;
+
+const btn = document.querySelector('.btn-mute');
+const btnUnmute = document.querySelector('.btn-unmute');
+const videoBackground = document.querySelector('.background-video');
+videoBackground.muted = true;
+
+btn.addEventListener('click', () => {
+    videoBackground.muted = false;
+    btnUnmute.style.display = 'block'
+    btn.style.display = 'none'
+    btnUnmute.removeEventListener('click', );
+});
+
+btnUnmute.addEventListener('click', () => {
+    videoBackground.muted = true;
+    btnUnmute.style.display = 'none'
+    btn.style.display = 'block';
+    btn.removeEventListener('click', );
+});
