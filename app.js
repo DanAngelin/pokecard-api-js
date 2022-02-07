@@ -16,6 +16,7 @@ const card = document.querySelector('.card');
 const pokeCard = document.querySelector(".idPokemon");
 const attackStats = document.querySelector('.attack p');
 const defenseStats = document.querySelector('.defense p');
+const inputSearch = document.querySelector('.search-pokemon input')
 
 const cardColors = {
 	normal: '#A8A77A',
@@ -40,15 +41,18 @@ const cardColors = {
 
 const getPokemon = async querry => {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${querry}`);
-    if (response.status == 404) {
-        document.querySelector('.error-found span').textContent = `Sorry, we don't found this Pokemon 😞 !`;
-    } else {
+
+    // Status api not found
+    response.status == 404 ?
+        document.querySelector('.error-found span').textContent = `Sorry, we don't found this Pokemon 😞 !`
+        :
         document.querySelector('.error-found span').textContent = '';
-    }
+
+
     const pokemon = await response.json();
 
     try {
-        let {name, id, sprites: {other: {home: {front_default}}}, stats:[{base_stat}, {base_stat: attack}, {base_stat: defense}], weight, height, 
+        const {name, id, sprites: {other: {home: {front_default}}}, stats:[{base_stat}, {base_stat: attack}, {base_stat: defense}], weight, height, 
         abilities: [{ability: {name: first, url: detailFirstAbility}}], 
         types: [{type: {name: typesPokemon}}],
         } = pokemon;
@@ -69,16 +73,16 @@ const getPokemon = async querry => {
         power1.textContent  = `${first.toUpperCase()}`;
         const fetchDetailFirstAbility = await fetch(detailFirstAbility);
         const firstAbility = await fetchDetailFirstAbility.json();
-        let {effect_entries: [{language: {name: nameLang}, short_effect: short_effectDe}, {language: {name: nameLang2},short_effect: short_effectEn}]} = firstAbility;
+        const {effect_entries: [{language: {name: nameLang}, short_effect: short_effectDe}, {language: {name: nameLang2},short_effect: short_effectEn}]} = firstAbility;
         effectPower1.textContent  = `${(short_effectEn && nameLang2 === "en") ? short_effectEn : short_effectDe}`;
 
         // Second Ability + Short Description
 
         if (pokemon.abilities[1]) {
-            let {ability: {name: second, url: detailSecondAbility}} = pokemon.abilities[1];
+            const {ability: {name: second, url: detailSecondAbility}} = pokemon.abilities[1];
             const fetchDetailSecondAbility = await fetch(detailSecondAbility);
             const secondAbility = await fetchDetailSecondAbility.json();
-            let {effect_entries: [{short_effect: short_effectDe1}, {short_effect: short_effectEn2}]} = secondAbility;
+            const {effect_entries: [{short_effect: short_effectDe1}, {short_effect: short_effectEn2}]} = secondAbility;
             effectPower2.textContent  = `${short_effectEn2 ? short_effectEn2 : short_effectDe1}`;
             power2.textContent  = `${second.toUpperCase()}`;
             document.querySelector('.power_2').style.visibility = "visible";
@@ -97,18 +101,23 @@ const getPokemon = async querry => {
 
 }
 
-
         // Input Btn Search Pokemon
 
 const btnSearch = document.querySelector('.btnSearch');
 const idPokeApi = () => {
-let pokemonById = document.querySelector('.pokemonById');
-let idPoke = pokemonById.value.toLowerCase();
+const pokemonById = document.querySelector('.pokemonById');
+const idPoke = pokemonById.value.toLowerCase();
 return idPoke;
 }
 
-
 btnSearch.addEventListener('click', () => getPokemon(idPokeApi()));
+
+inputSearch.addEventListener("keyup", e => {
+    if (e.keyCode === 13) {
+        e.preventDefault();
+        btnSearch.click();
+    }
+})
 
 
 // FOOTER YEAR
