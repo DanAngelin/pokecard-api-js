@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokemon Card Generator</title>
     <link rel="stylesheet" href="style.css">
+    <script defer src="app.js"></script>
 </head>
 <body>
     <header>
@@ -31,84 +32,89 @@
     </header>
 
     <section>
-    <div class="card_item">
-        <div class="card">
-            <div class="card_title">
-                <div class="pokemon_name">
-                    <h2>PokeName</h2>
-                </div>
-                <div class="hp">
-                    <span>HP</span><h2>??</h2>
-                    <div class="icon-type">
-                    <img src="img/icon_card.png" >
-                </div>
-                </div>
-            </div>
-            <div class="pokemon">
-                <div class="basic">
-                    <p>BASIC</p>
-                </div>
-                <div id="pokemon-display">
-                    <img src="img/displaydefault.png" >
-                </div>
-            </div>
-            <div class="details_small">
-                <p>Pokemon HT: <span id="height"></span> WT: <span id="weight"></span></p>
-            </div>
-            <div class="details_pokemon">
-                <div class="power_1">
-                    <div class="name_power">
-                        <img src="img/none.png">
-                        <h3>First Ability</h3>
+        <div class="card_item">
+            <div class="card">
+                <div class="card_title">
+                    <div class="pokemon_name">
+                        <h2>PokeName</h2>
                     </div>
-                    <div class="description_power">
-                        <p class="effectpower1">Short description ability</p>
+                    <div class="hp">
+                        <span>HP</span><h2>??</h2>
+                        <div class="icon-type">
+                        <img src="img/icon_card.png" >
+                    </div>
                     </div>
                 </div>
-                <div class="power_2">
-                    <div class="name_power">
-                        <img src="img/none.png">
-                        <h3>Second Ability</h3>
-                        <div class="increase_power">
+                <div class="pokemon">
+                    <div class="basic">
+                        <p>BASIC</p>
+                    </div>
+                    <div id="pokemon-display">
+                        <img src="img/displaydefault.png" >
+                    </div>
+                </div>
+                <div class="details_small">
+                    <p>Pokemon HT: <span id="height"></span> WT: <span id="weight"></span></p>
+                </div>
+                <div class="details_pokemon">
+                    <div class="power_1">
+                        <div class="name_power">
+                            <img src="img/none.png">
+                            <h3>First Ability</h3>
+                        </div>
+                        <div class="description_power">
+                            <p class="effectpower1">Short description ability</p>
                         </div>
                     </div>
-                    <div class="description_power">
-                        <p class="effectpower2">Short description ability</p>
+                    <div class="power_2">
+                        <div class="name_power">
+                            <img src="img/none.png">
+                            <h3>Second Ability</h3>
+                            <div class="increase_power">
+                            </div>
+                        </div>
+                        <div class="description_power">
+                            <p class="effectpower2">Short description ability</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="footer_card">
-                <p class="text"><i>For some time after its birth, it grows by gaining nourishmnet from the seed on its back.</i></p>
-                <div class="illustration">
-                    <p>Illus. Kouki Saitou</p>
-                </div>
-                <div class="pokemon_stats">
-                    <div class="item_1">
-                        <p>defense</p>
-                        <div class="defense"><p>??</p></div>
+                <div class="footer_card">
+                    <p class="text"><i>For some time after its birth, it grows by gaining nourishmnet from the seed on its back.</i></p>
+                    <div class="illustration">
+                        <p>Illus. Kouki Saitou</p>
                     </div>
-                    <div class="item_2">
-                        <p>resistance</p>
+                    <div class="pokemon_stats">
+                        <div class="item_1">
+                            <p>defense</p>
+                            <div class="defense"><p>??</p></div>
+                        </div>
+                        <div class="item_2">
+                            <p>resistance</p>
+                        </div>
+                        <div class="item_3">
+                            <p>attack</p>
+                            <div class="attack"><p>??</p></div>
+                        </div>
                     </div>
-                    <div class="item_3">
-                        <p>attack</p>
-                        <div class="attack"><p>??</p></div>
+                    <div class="footer_small">
+                        <p>DPB#</p>
+                        <span>&#xa9;2007 Pokemon/Nintendo</span>
+                        <div class="number_card">
+                        <p>&#9679;</p>
+                        <img src="img/symbol.png" alt="">
+                    </div>
                     </div>
                 </div>
-                <div class="footer_small">
-                    <p>DPB#</p>
-                    <span>&#xa9;2007 Pokemon/Nintendo</span>
-                    <div class="number_card">
-                    <p>&#9679;</p>
-                    <img src="img/symbol.png" alt="">
-                </div>
-                </div>
-            </div>
 
+            </div>
         </div>
-    </div>
 
-</section>
+    </section>
+
+    <div class="my__id-pokemongo">
+        <img src="img/pokemongologo.png" />
+        <img src="img/pokemongoid.jpg" />
+    </div>
 
 <div class="sound">
     <img src="img/muted.svg" class="btn-mute">
@@ -124,6 +130,5 @@
     <source src="./img/bg.mp4" type="video/mp4">
 </video>
 
-<script type="text/javascript" src="app.js"></script>
 </body>
 </html>
