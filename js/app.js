@@ -1,9 +1,9 @@
+import { API_URL } from './config.js';
 
 // Selecting Elements
 const pokemonName = document.querySelector('.pokemon_name h2');
 const pokemonTitle = document.querySelector('.pokemon_title h1');
 const pokemonIcon = document.querySelector('.pokemon_icon img');
-const pokemonDisplay = document.querySelector('#pokemon-display img');
 const hp = document.querySelector('.hp h2');
 const weightPokemon = document.querySelector('.details_small #weight');
 const heightPokemon = document.querySelector('.details_small #height');
@@ -16,7 +16,8 @@ const card = document.querySelector('.card');
 const pokeCard = document.querySelector(".idPokemon");
 const attackStats = document.querySelector('.attack p');
 const defenseStats = document.querySelector('.defense p');
-const inputSearch = document.querySelector('.search-pokemon input')
+const inputSearch = document.querySelector('.search-pokemon input');
+let pokemonRender = document.querySelector('#pokemon-display');
 
 const cardColors = {
 	normal: '#A8A77A',
@@ -39,8 +40,23 @@ const cardColors = {
 	fairy: '#D685AD',
 };
 
+
+// Render Spinner until the fetch API is loaded or pokemon not found
+const renderSpinner = function(parentEl) {
+    const pokemonRender = `
+        <div class="spinner">
+            <img src="img/spinner.svg">
+        <div>
+    `;
+    parentEl.innerHTML = '';
+    parentEl.insertAdjacentHTML('afterbegin', pokemonRender);
+};
+
+
 const getPokemon = async querry => {
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${querry}`);
+    try {
+        renderSpinner(pokemonRender)
+    const response = await fetch(`${API_URL}${querry}`);
 
     // Status api not found
     response.status == 404 ?
@@ -51,7 +67,6 @@ const getPokemon = async querry => {
 
     const pokemon = await response.json();
 
-    try {
         const {name, id, sprites: {other: {home: {front_default}}}, stats:[{base_stat}, {base_stat: attack}, {base_stat: defense}], weight, height, 
         abilities: [{ability: {name: first, url: detailFirstAbility}}], 
         types: [{type: {name: typesPokemon}}],
@@ -59,7 +74,7 @@ const getPokemon = async querry => {
         pokemonName.textContent  = `${name[0].toUpperCase() + name.slice(1)}`;
         pokemonTitle.textContent  = `${name[0].toUpperCase() + name.slice(1)}`;
         pokeCard.textContent  = `${id}`;
-        pokemonDisplay.src = `${front_default}`;
+        pokemonRender.innerHTML = `<img src="${front_default}" >`;
         pokemonIcon.src = `${front_default}`;
         typePokemon.src = `img/${typesPokemon}.png`;
         attackStats.textContent  = `${attack}`;
@@ -73,7 +88,7 @@ const getPokemon = async querry => {
         power1.textContent  = `${first.toUpperCase()}`;
         const fetchDetailFirstAbility = await fetch(detailFirstAbility);
         const firstAbility = await fetchDetailFirstAbility.json();
-        const {effect_entries: [{language: {name: nameLang}, short_effect: short_effectDe}, {language: {name: nameLang2},short_effect: short_effectEn}]} = firstAbility;
+        const {effect_entries: [{short_effect: short_effectDe}, {language: {name: nameLang2},short_effect: short_effectEn}]} = firstAbility;
         effectPower1.textContent  = `${(short_effectEn && nameLang2 === "en") ? short_effectEn : short_effectDe}`;
 
         // Second Ability + Short Description
@@ -123,7 +138,7 @@ inputSearch.addEventListener("keyup", e => {
 // FOOTER YEAR
 
 const getDate = new Date();
-document.querySelector('.year').textContent  = `${getDate.getFullYear()}`
+document.querySelector('.year').textContent  = `${getDate.getFullYear()}`;
 
 // BACKGROUND VIDEO 
 document.querySelector('.background-video').volume=0.2;
@@ -133,16 +148,18 @@ const btnUnmute = document.querySelector('.btn-unmute');
 const videoBackground = document.querySelector('.background-video');
 videoBackground.muted = true;
 
-btn.addEventListener('click', () => {
+
+// BUTTON MUTE UNMUTE AUDIO BACKGROUND
+btn.addEventListener('click', (e) => {
     videoBackground.muted = false;
     btnUnmute.style.display = 'block'
     btn.style.display = 'none'
-    btnUnmute.removeEventListener('click', );
+    btnUnmute.removeEventListener('click', e);
 });
 
-btnUnmute.addEventListener('click', () => {
+btnUnmute.addEventListener('click', (e) => {
     videoBackground.muted = true;
     btnUnmute.style.display = 'none'
     btn.style.display = 'block';
-    btn.removeEventListener('click', );
+    btn.removeEventListener('click', e);
 });

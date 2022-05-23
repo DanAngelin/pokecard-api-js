@@ -246,6 +246,25 @@ section {
     text-align: center;
     transform: translateY(-3px);
 }
+.spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: spinnerRotate 2s infinite linear;
+}
+.spinner img{
+    width: 55px;
+    border: none;
+}
+
+@keyframes spinnerRotate {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
 
 
 /* ---- DETAILS POKEMON POWER ----- */
