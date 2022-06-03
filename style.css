@@ -79,6 +79,23 @@ align-content: center;
     justify-content: center;
     align-items: center;
     color: #F8E150;
+    animation: moveInLeft 2s ease-out;
+}
+
+@keyframes moveInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+
+    80% {
+        transform: translateX(10px);
+    }
+
+    100% {
+        transform: translate(0);
+        opacity: 1;
+    }
 }
 
 .pokemon_card {
@@ -86,11 +103,28 @@ align-content: center;
     justify-content: center;
     align-items: center;
     color: #3B5CA8;
+    animation: moveInRight 2s ease-out;
 }
 
 .pokemon_card img {
     width: 20px;
     margin: 2px;
+}
+
+@keyframes moveInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+
+    80% {
+        transform: translateX(-10px);
+    }
+
+    100% {
+        transform: translate(0);
+        opacity: 1;
+    }
 }
 
 /*  ----- TITLE CARD ----- */
@@ -136,6 +170,11 @@ section {
     border-radius: 0.3em;
     border: none;
     cursor: pointer;
+}
+
+.btnSearch:active {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
 }
 
 .error-found span {
